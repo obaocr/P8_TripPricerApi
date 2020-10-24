@@ -1,9 +1,9 @@
-P8 GpsApi
-GpsApi is a Spring Boot application which expose web services for the Tourguide application Service : Get Attraction & User location
+P8 TipPricer
+TipPricer is a Spring Boot application which expose web services for the Tourguide application Service : GetPrice
 
-The services are exposed by port 8046
+The services are exposed by port 8048
 
-Endpoints : "/gpsattractions" "/gpsuserlocation"
+Endpoints : "/triprice"
 
 Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -33,9 +33,10 @@ Install Docker, launch Docker application
 
 Build the application From the P8_GpsApi directory launch "mvn clean package", the jar is in the target directory
 
-Build and run the docker image From the P8_GpsApi : "docker build --tag gpsapi ." tu build the image "docker run -p 8046:8046 gpsapi" to run "docker stop gpsapi ." to stop "docker rmi -f gpsapi" to remove the image
+Build and run the docker image From the P8_GpsApi : "mvn install:install-file -Dfile=TripPricer.jar -DgroupId=com.p8.tripPricer -DartifactId=tripPricer -Dversion=1.0 -Dpackaging=jar
+" to remove the image
 
-Test the service ( Ex : http://localhost:8046/attractions)
+Test the service ( Ex : http://localhost:8048)
 
 Testing
 The app has unit tests and performances tests written.
