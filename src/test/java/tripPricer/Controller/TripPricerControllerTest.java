@@ -30,6 +30,14 @@ public class TripPricerControllerTest {
     private MockMvc mockMvc;
 
     @Test
+    void home() throws Exception {
+        List<Provider> providers = new ArrayList<>();
+        this.mockMvc.perform(get("/")
+                .characterEncoding("utf-8"))
+                .andDo(print()).andExpect(status().isOk()).andReturn();
+    }
+
+    @Test
     void tripPrice() throws Exception {
         List<Provider> providers = new ArrayList<>();
         when(tripPricerService.getPrice("key", "79ad4e7d-49b9-4c82-bd88-0e5dbc41fe75"
@@ -43,6 +51,38 @@ public class TripPricerControllerTest {
                 .param("rewardsPoints", "99")
                 .characterEncoding("utf-8"))
                 .andDo(print()).andExpect(status().isOk()).andReturn();
+    }
+
+    @Test
+    void tripPriceShouldReturnError1() throws Exception {
+        List<Provider> providers = new ArrayList<>();
+        when(tripPricerService.getPrice("key", "79ad4e7d-49b9-4c82-bd88-0e5dbc41fe75"
+                , 2, 1, 7, 99)).thenReturn(providers);
+        this.mockMvc.perform(get("/tripprice")
+                .param("apiKey", "")
+                .param("attractionId", "79ad4e7d-49b9-4c82-bd88-0e5dbc41fe75")
+                .param("adults", "2")
+                .param("children", "1")
+                .param("nightsStay", "7")
+                .param("rewardsPoints", "99")
+                .characterEncoding("utf-8"))
+                .andDo(print()).andExpect(status().isBadRequest()).andReturn();
+    }
+
+    @Test
+    void tripPriceShouldReturnError2() throws Exception {
+        List<Provider> providers = new ArrayList<>();
+        when(tripPricerService.getPrice("key", "79ad4e7d-49b9-4c82-bd88-0e5dbc41fe75"
+                , 2, 1, 7, 99)).thenReturn(providers);
+        this.mockMvc.perform(get("/tripprice")
+                .param("apiKey", "key")
+                .param("attractionId", "")
+                .param("adults", "2")
+                .param("children", "1")
+                .param("nightsStay", "7")
+                .param("rewardsPoints", "99")
+                .characterEncoding("utf-8"))
+                .andDo(print()).andExpect(status().isBadRequest()).andReturn();
     }
 
 }

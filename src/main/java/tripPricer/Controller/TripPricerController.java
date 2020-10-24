@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tripPricer.Provider;
 import tripPricer.Service.TripPricerService;
+import tripPricer.Utils.EntityIllegalArgumentException;
 
 import java.util.List;
 
@@ -28,6 +29,15 @@ public class TripPricerController {
     @GetMapping("/tripprice")
     public List<Provider> tripPrice(@RequestParam String apiKey, @RequestParam String attractionId, @RequestParam int adults
             , @RequestParam int children, @RequestParam int nightsStay, @RequestParam int rewardsPoints) {
+        if (apiKey.isEmpty()) {
+            logger.error("tripprice : The parameter apiKey is mandatory");
+            throw new EntityIllegalArgumentException("The parameter apiKey is mandatory");
+        }
+        if (attractionId.isEmpty()) {
+            logger.error("tripprice : The parameter attractionId is mandatory");
+            throw new EntityIllegalArgumentException("The parameter attractionId is mandatory");
+        }
+
         return tripPricerService.getPrice(apiKey, attractionId, adults, children, nightsStay, rewardsPoints);
     }
 
